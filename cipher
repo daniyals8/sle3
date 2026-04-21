@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h3>Gus Joko Secret Cipher S.LE.3</h3>
+  
+  <textarea id="inputText" rows="4" cols="50">Halo Trawas!</textarea><br><br>
+  
+  <button onclick="processText('encrypt')">Encrypt</button>
+  <button onclick="processText('decrypt')">Decrypt</button><br><br>
+  
+  <textarea id="outputText" rows="4" cols="50" readonly></textarea>
+
+  <script>
+    // Moved the keys outside so both functions can use them easily
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const baseKey = "HIDUPJOKWQERTYASFGLZXCVBNM";
+
+    function processText(mode) {
+      let text = document.getElementById("inputText").value.toUpperCase();
+      let currentKey = baseKey; 
+      let result = "";
+
+      for (let i = 0; i < text.length; i++) {
+        let char = text[i];
+        
+        if (mode === 'encrypt') {
+          let index = alphabet.indexOf(char);
+          if (index !== -1) {
+            result += currentKey[index];
+            currentKey = currentKey.substring(1) + currentKey[0]; // Spin rotor
+          } else {
+            result += char; 
+          }
+        } 
+        
+        else if (mode === 'decrypt') {
+          // Find the character in the ROTATED key instead
+          let index = currentKey.indexOf(char);
+          if (index !== -1) {
+            result += alphabet[index]; // Bring it back to normal A-Z
+            currentKey = currentKey.substring(1) + currentKey[0]; // Spin rotor exactly the same way!
+          } else {
+            result += char; 
+          }
+        }
+      }
+
+      document.getElementById("outputText").value = result;
+    }
+  </script>
+</body>
+</html>
