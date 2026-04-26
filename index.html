@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1"
+		>
+	  <style>
+      body {
+        background-color:#28261d;
+        font-family:monospace;
+      }
+      h1 {
+        color:#c56538;
+        text-align: center;
+      }
+      textarea {
+        width: 90%;
+        background-color:#3e3b32;
+        color:#e1dacc;
+        padding: 8px;
+      }
+      .button {
+      /*text-align: center;*/
+      /*text-decoration: none;*/
+      display: inline-block;
+      font-family:monospace;
+      font-size: 15px;
+      color:#28261d;
+      padding: 7px;
+      margin: 2px;
+      border: none;
+      border-radius: 70px;
+      width: 50%;
+      cursor: pointer;
+      }
+      .button1 {
+        background-color:#64acf8;
+        width: 25%;
+      }
+      .button2 {
+        background-color:#dec663;
+        width: 25%;
+      }
+    </style>  
+	</head>
+	<body>
+		<h1>Ocx Tlsx Mtrisj Svpbcq s-le.3</h1>
+		<textarea id="inputText" rows="4" cols="50">Hello Trawas!</textarea><br><br>
+		<button class="button button1" onclick="processText('encrypt')">encrypt</button>
+		<button class="button button2" onclick="processText('decrypt')">decrypt</button><br><br>
+		<textarea id="outputText" rows="4" cols="50" readonly></textarea>
+
+		<script>
+  // Moved the keys outside so both functions can use them easily
+			const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			const baseKey = "HIDUPJOKWQERTYASFGLZXCVBNM";
+
+			function processText(mode) {
+	// 1. Remove all spaces from the input right away using a Regex (.replace)
+      let text = document.getElementById("inputText").value.toUpperCase().replace(/ /g, '');
+			let currentKey = baseKey; 
+			let result = "";
+
+			for (let i = 0; i < text.length; i++) {
+			let char = text[i];
+        
+			if (mode === 'encrypt') {
+			let index = alphabet.indexOf(char);
+			if (index !== -1) {
+            result += currentKey[index];
+            currentKey = currentKey.substring(1) + currentKey[0]; // Spin rotor
+			} else {
+            result += char; 
+          }
+        } 
+        
+			else if (mode === 'decrypt') {
+          // Find the character in the ROTATED key instead
+			let index = currentKey.indexOf(char);
+			if (index !== -1) {
+            result += alphabet[index]; // Bring it back to normal A-Z
+            currentKey = currentKey.substring(1) + currentKey[0]; // Spin rotor exactly the same way!
+          } else {
+            result += char; 
+          }
+        }
+      }
+
+      // 2. Group the final text into blocks of 4 and join them with a space
+      if (mode === 'encrypt') {
+        let finalOutput = result.match(/.{1,4}/g);
+        document.getElementById("outputText").value = finalOutput ? finalOutput.join(' ') : "";
+      } else {
+        document.getElementById("outputText").value = result;
+      }
+    }
+		</script>
+	</body>
+</html>
