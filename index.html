@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1"
-		>
+	<head>   
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    >
 	  <style>
       body {
-        background-color:#28261d;
-        font-family:monospace;
+        background-color: #28261d;
+        font-family: monospace;
       }
       h1 {
-        color:#c56538;
+        color: #c56538;
         text-align: center;
       }
       textarea {
         width: 90%;
-        background-color:#3e3b32;
-        color:#e1dacc;
+        background-color: #3e3b32;
+        color: #e1dacc;
         padding: 8px;
       }
       .button {
-      /*text-align: center;*/
-      /*text-decoration: none;*/
       display: inline-block;
-      font-family:monospace;
+      font-family: monospace;
       font-size: 15px;
-      color:#28261d;
+      font-weight: bold;
+      color: #28261d;
       padding: 7px;
       margin: 2px;
       border: none;
@@ -35,13 +34,23 @@
       cursor: pointer;
       }
       .button1 {
-        background-color:#64acf8;
+        background-color: #64acf8;
         width: 25%;
       }
       .button2 {
-        background-color:#dec663;
+        background-color: #dec663;
         width: 25%;
       }
+      #outputText {
+      color: #00FF41; /* Neon hacker green */
+      /*background-color: black;*/
+      font-family: 'Courier New', Courier, monospace;
+      padding: 15px;
+      min-height: 50px;
+      font-size: 18px;
+      font-weight: bold;
+      word-wrap: break-word;
+    }
     </style>  
 	</head>
 	<body>
@@ -49,7 +58,7 @@
 		<textarea id="inputText" rows="4" cols="50">Hello Trawas!</textarea><br><br>
 		<button class="button button1" onclick="processText('encrypt')">encrypt</button>
 		<button class="button button2" onclick="processText('decrypt')">decrypt</button><br><br>
-		<textarea id="outputText" rows="4" cols="50" readonly></textarea>
+		<div id="outputText"></div>
 
 		<script>
   // Moved the keys outside so both functions can use them easily
@@ -88,13 +97,16 @@
       }
 
       // 2. Group the final text into blocks of 4 and join them with a space
+      let finalOutput = result;
       if (mode === 'encrypt') {
-        let finalOutput = result.match(/.{1,4}/g);
-        document.getElementById("outputText").value = finalOutput ? finalOutput.join(' ') : "";
-      } else {
-        document.getElementById("outputText").value = result;
+        let match = result.match(/.{1,4}/g);
+        finalOutput = match ? match.join(' ') : "";
       }
+      
+      // Changed .value to .innerText to write directly into the <div>
+      document.getElementById("outputText").innerText = finalOutput;
     }
 		</script>
-	</body>
+</p>
+</body>
 </html>
