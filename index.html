@@ -7,18 +7,20 @@
     >
 	  <style>
       body {
-        background-color: #28261d;
+        background-color: #010409;
         font-family: monospace;
       }
       h1 {
-        color: #c56538;
+        color: #e7f0f9;
         text-align: center;
       }
       textarea {
         width: 90%;
-        background-color: #3e3b32;
-        color: #e1dacc;
+        background-color: #0d1117;
+        color: #5f6869;
         padding: 8px;
+        border-width: medium;
+        border-color: #2a3038;
       }
       .button {
       display: inline-block;
@@ -34,11 +36,11 @@
       cursor: pointer;
       }
       .button1 {
-        background-color: #64acf8;
+        background-color: #d3651f;
         width: 25%;
       }
       .button2 {
-        background-color: #dec663;
+        background-color: #2d6ac5;
         width: 25%;
       }
       #outputText {
@@ -53,9 +55,10 @@
     }
     </style>  
 	</head>
+	
 	<body>
 		<h1>Ocx Tlsx Mtrisj Svpbcq s-le.3</h1>
-		<textarea id="inputText" rows="4" cols="50">Hello Trawas!</textarea><br><br>
+		<textarea id="inputText" rows="7" cols="45">Hello Trawas!</textarea><br><br>
 		<button class="button button1" onclick="processText('encrypt')">encrypt</button>
 		<button class="button button2" onclick="processText('decrypt')">decrypt</button><br><br>
 		<div id="outputText"></div>
@@ -64,16 +67,16 @@
   // Moved the keys outside so both functions can use them easily
 			const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 			const baseKey = "HIDUPJOKWQERTYASFGLZXCVBNM";
-
 			function processText(mode) {
-	// 1. Remove all spaces from the input right away using a Regex (.replace)
+	// Remove all spaces from the input right away using a Regex (.replace)
       let text = document.getElementById("inputText").value.toUpperCase().replace(/ /g, '');
 			let currentKey = baseKey; 
 			let result = "";
-
+  // Loop through the text and swap letters
 			for (let i = 0; i < text.length; i++) {
 			let char = text[i];
-        
+  // If the letter exists in our map, swap it.
+  // Otherwise, keep it exactly as it is (for spaces, !, ?, etc.)
 			if (mode === 'encrypt') {
 			let index = alphabet.indexOf(char);
 			if (index !== -1) {
@@ -83,9 +86,8 @@
             result += char; 
           }
         } 
-        
 			else if (mode === 'decrypt') {
-          // Find the character in the ROTATED key instead
+  // Find the character in the ROTATED key instead
 			let index = currentKey.indexOf(char);
 			if (index !== -1) {
             result += alphabet[index]; // Bring it back to normal A-Z
@@ -95,18 +97,16 @@
           }
         }
       }
-
-      // 2. Group the final text into blocks of 4 and join them with a space
+  // Group the final text into blocks of 4 and join them with a space
       let finalOutput = result;
       if (mode === 'encrypt') {
         let match = result.match(/.{1,4}/g);
         finalOutput = match ? match.join(' ') : "";
       }
-      
-      // Changed .value to .innerText to write directly into the <div>
+  // Changed .value to .innerText to write directly into the <div>
       document.getElementById("outputText").innerText = finalOutput;
     }
 		</script>
-</p>
+
 </body>
 </html>
